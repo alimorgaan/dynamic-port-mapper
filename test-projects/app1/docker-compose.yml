@@ -1,0 +1,25 @@
+version: "3"
+services:
+  web:
+    image: nginx
+    ports:
+      - "8080:80"
+    environment:
+      - NGINX_HOST=app1.local
+    networks:
+      - app1-network
+
+  db:
+    image: postgres:13
+    environment:
+      - POSTGRES_PASSWORD=app1pass
+      - POSTGRES_USER=app1user
+      - POSTGRES_DB=app1db
+    ports:
+      - "5432:5432"
+    networks:
+      - app1-network
+
+networks:
+  app1-network:
+    driver: bridge

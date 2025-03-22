@@ -1,0 +1,25 @@
+version: "3"
+services:
+  web:
+    image: nginx
+    ports:
+      - "8080:80" # This will conflict with app1's web service
+    environment:
+      - NGINX_HOST=app2.local
+    networks:
+      - app2-network
+
+  db:
+    image: postgres:14
+    environment:
+      - POSTGRES_PASSWORD=app2pass
+      - POSTGRES_USER=app2user
+      - POSTGRES_DB=app2db
+    ports:
+      - "5432:5432" # This will conflict with app1's db service
+    networks:
+      - app2-network
+
+networks:
+  app2-network:
+    driver: bridge

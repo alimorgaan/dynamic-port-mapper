@@ -1,0 +1,38 @@
+# Git
+.git
+.gitignore
+.github
+
+# Build artifacts
+container-viewer
+dynamic-port-mapper
+*_test.go
+test-projects/
+
+# Go development
+vendor/
+*.test
+*.out
+*.prof
+coverage.txt
+
+# Docker development files
+docker-compose.dev.yml
+Dockerfile.dev
+.air.toml
+dev.sh
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+*.sublime*
+.DS_Store
+Thumbs.db
+
+# Other development files
+Makefile
+README.md
+CHANGELOG.md
+LICENSE 

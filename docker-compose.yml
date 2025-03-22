@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  dynamic-port-mapper:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: dynamic-port-mapper:latest
+    container_name: dynamic-port-mapper
+    ports:
+      - "5000:5000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+    user: root
+    networks:
+      - port-mapper-network
+    healthcheck:
+      test: wget -qO- http://localhost:5000 || exit 1
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+    environment:
+      - TZ=UTC
+    labels:
+      - "com.dynamic-port-mapper.has-dynamic-ports=true"
+      - "com.dynamic-port-mapper.description=Automatically resolves port conflicts for Docker containers"
+
+networks:
+  port-mapper-network:
+    driver: bridge

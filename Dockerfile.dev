@@ -1,0 +1,22 @@
+FROM golang:1.22-alpine
+
+# Install necessary tools
+RUN apk add --no-cache docker-cli git gcc musl-dev curl net-tools
+
+# Install Air for hot reloading
+RUN go install github.com/cosmtrek/air@v1.49.0
+
+# Set working directory
+WORKDIR /app
+
+# Copy go.mod and go.sum for dependency installation
+COPY go.mod go.sum* ./
+
+# Download dependencies in a separate layer
+RUN go mod download
+
+# Expose port
+EXPOSE 5000
+
+# Command to run
+CMD ["air", "-c", ".air.toml"] 
